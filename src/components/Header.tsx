@@ -52,15 +52,7 @@ export default function Header({ opened, setOpened }: HeaderProps) {
           height: "100%",
         }}
       >
-        <MediaQuery largerThan="sm" styles={{ display: "none" }}>
-          <Burger
-            opened={opened}
-            onClick={() => setOpened((o) => !o)}
-            size="sm"
-            color={theme.colors.gray[6]}
-            mr="xl"
-          />
-        </MediaQuery>
+        
 
         <h4>SISTEMA DE UPLOAD DE IMAGENS</h4>
 

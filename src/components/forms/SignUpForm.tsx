@@ -8,13 +8,12 @@ import {
   Button,
   Center,
   Stack,
-  Select,
   Divider,
 } from "@mantine/core";
 import Link from "next/link";
 import FormHeader from "../FormHeader";
 import { FacebookButton, GoogleButton } from "components/SocialButtons";
-import useFormSignUp, { validCNPJ } from "hooks/forms/useFormSignUp";
+import useFormSignUp from "hooks/forms/useFormSignUp";
 
 export function SignUpForm() {
   const { form, handleSubmit, createAccount } = useFormSignUp();
@@ -51,14 +50,8 @@ export function SignUpForm() {
             placeholder="Nome e sobrenome"
             required
             {...form.getInputProps("name")}
-            // width="100%"
           />
-          <TextInput
-            label="Nome da Empresa"
-            required
-            {...form.getInputProps("corporationName")}
-            // width="100%"
-          />
+
           <TextInput
             label="Email"
             type="email"
@@ -66,12 +59,7 @@ export function SignUpForm() {
             required
             {...form.getInputProps("email")}
           />
-          <TextInput
-            label="Número de Telefone"
-            required
-            {...form.getInputProps("phoneNumber")}
-          />
-          
+
           <PasswordInput
             label="Senha"
             placeholder="6 digitos no minimo"
@@ -89,7 +77,6 @@ export function SignUpForm() {
             <Button type="submit" loading={createAccount.isLoading}>
               Criar conta
             </Button>
-            
           </Center>
         </Stack>
       </Paper>

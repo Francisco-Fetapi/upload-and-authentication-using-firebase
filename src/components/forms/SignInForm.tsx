@@ -61,11 +61,7 @@ export function SignInForm() {
             required
             {...form.getInputProps("password")}
           />
-          <Group position="apart">
-            <Link href="/esqueci-minha-senha">
-              <Anchor<"a"> size="sm">Esqueceste sua senha?</Anchor>
-            </Link>
-          </Group>
+
           <Center>
             <Button loading={login.isLoading} type="submit">
               Iniciar sessão
