@@ -20,8 +20,7 @@ export default function useUpload() {
     formData.append("file", file);
     formData.append("title", title);
 
-    return apiRoutes.post<HandleUploadApiResponse>("/upload", {
-      body: formData,
+    return apiRoutes.post<HandleUploadApiResponse>("/upload", formData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
