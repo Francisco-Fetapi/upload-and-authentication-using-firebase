@@ -1,4 +1,5 @@
 import { Card, Text, AspectRatio, createStyles } from "@mantine/core";
+import { formatDate } from "helpers/formatDate";
 
 const useStyles = createStyles((theme) => ({
   card: {
@@ -42,7 +43,7 @@ export default function CardImage({ picture }: CardImageProps) {
         <img src={picture.image} alt="Imagem" />
       </AspectRatio>
       <Text color="dimmed" size="xs" transform="uppercase" weight={700} mt="md">
-        {picture.date}
+        {formatDate(new Date(picture.date))}
       </Text>
       <Text
         className={classes.title}

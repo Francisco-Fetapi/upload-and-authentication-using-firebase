@@ -2,6 +2,7 @@ import { useRef, useState } from "react";
 import { Text, Group, Button, createStyles } from "@mantine/core";
 import { Dropzone, FileWithPath, MIME_TYPES } from "@mantine/dropzone";
 import { IconCloudUpload, IconX, IconDownload } from "@tabler/icons";
+import PhotoPreview from "./PhotoPreview";
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
@@ -29,10 +30,13 @@ export function DropzoneButton() {
   const { classes, theme } = useStyles();
   const openRef = useRef<() => void>(null);
   const maxFileSize = 5; //5 MB
-  const [file, setFile] = useState(null);
+  const [file, setFile] = useState<File | null>(null);
+  const [title, setTitle] = useState<string>("");
 
   function selectFiles(files: FileWithPath[]) {
     console.log(files);
+
+    setFile(files[0]);
   }
 
   return (
@@ -94,6 +98,8 @@ export function DropzoneButton() {
           </Button>
         </div>
       </div>
+
+      {file && <PhotoPreview file={file} title={title} />}
     </>
   );
 }
