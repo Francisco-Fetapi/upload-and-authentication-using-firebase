@@ -37,7 +37,7 @@ export default function CardImage({
   const hasMonted = useHasMounted();
 
   if (!hasMonted) {
-    return <div />;
+    return <div></div>;
   }
   return (
     <Card
