@@ -67,7 +67,7 @@ export default function PhotoPreview({
         value={title}
         onChange={(event) => setTitle(event.target.value)}
         radius="md"
-        maxLength={80}
+        maxLength={40}
       />
       <Group
         mt={10}

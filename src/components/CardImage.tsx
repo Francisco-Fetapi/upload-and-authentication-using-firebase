@@ -47,6 +47,7 @@ export default function CardImage({
         <img src={picture.image} alt="Imagem" />
       </AspectRatio>
       <Text color="dimmed" size="xs" transform="uppercase" weight={700} mt="md">
+        {/* TODO: solve nextjs hydratation error */}
         {formatDate(new Date(picture.date))}
       </Text>
       {picture.title && (
