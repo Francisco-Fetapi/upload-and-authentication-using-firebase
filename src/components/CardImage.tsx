@@ -49,7 +49,7 @@ export default function CardImage({ picture }: CardImageProps) {
         mt={5}
         color={!picture.title ? "red" : undefined}
       >
-        {picture.title || "Imagem Sem Titulo!"}
+        {picture.title || "Imagem sem titulo!"}
       </Text>
     </Card>
   );
