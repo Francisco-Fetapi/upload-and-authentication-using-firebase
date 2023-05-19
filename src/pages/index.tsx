@@ -5,8 +5,6 @@ export default function IndexPage() {
   return (
     <div>
       <AppScheme>
-        <h1>Bem-Vindo!</h1>
-
         <DropzoneButton />
       </AppScheme>
     </div>

@@ -10,8 +10,10 @@ import {
   createStyles,
 } from "@mantine/core";
 import { IconSun, IconMoonStars, IconLogout } from "@tabler/icons";
+import useAuth from "hooks/useAuth";
 import useLogout from "hooks/useLogout";
 import { Dispatch, SetStateAction } from "react";
+import { UserButton } from "./UserButton";
 
 interface HeaderProps {
   opened: boolean;
@@ -41,6 +43,7 @@ export default function Header({ opened, setOpened }: HeaderProps) {
   const { classes } = useStyles();
   const { colorScheme, toggleColorScheme } = useMantineColorScheme();
   const logout = useLogout();
+  const { user } = useAuth();
 
   return (
     <HeaderMantine height={70} p="md">
@@ -52,7 +55,13 @@ export default function Header({ opened, setOpened }: HeaderProps) {
           height: "100%",
         }}
       >
-        
+        {user && (
+          <UserButton
+            email={user.email}
+            image="/user-no-photo.jpg"
+            name={user.name}
+          />
+        )}
 
         <h4>SISTEMA DE UPLOAD DE IMAGENS</h4>
 
