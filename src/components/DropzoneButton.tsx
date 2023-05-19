@@ -3,6 +3,9 @@ import { Text, Group, Button, createStyles } from "@mantine/core";
 import { Dropzone, FileWithPath, MIME_TYPES } from "@mantine/dropzone";
 import { IconCloudUpload, IconX, IconDownload } from "@tabler/icons";
 import PhotoPreview from "./PhotoPreview";
+import { apiRoutes } from "lib/axios";
+import useUpload from "hooks/useUpload";
+import { showNotification } from "@mantine/notifications";
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
@@ -32,6 +35,7 @@ export function DropzoneButton() {
   const maxFileSize = 5; //5 MB
   const [file, setFile] = useState<File | null>(null);
   const [title, setTitle] = useState("");
+  const { handleUpload } = useUpload();
 
   function selectFiles(files: FileWithPath[]) {
     console.log(files);
@@ -39,7 +43,27 @@ export function DropzoneButton() {
     setFile(files[0]);
   }
 
-  function upload() {}
+  function upload() {
+    if (file) {
+      handleUpload.mutate(
+        {
+          file,
+          title,
+        },
+        {
+          onSuccess(data, variables, context) {
+            setFile(null);
+            setTitle("");
+            showNotification({
+              title: "Imagem carregada.",
+              message: "A sua imagem foi carregada com sucesso.",
+              color: "green",
+            });
+          },
+        }
+      );
+    }
+  }
 
   return (
     <>
@@ -111,6 +135,8 @@ export function DropzoneButton() {
           upload={upload}
         />
       )}
+
+      {handleUpload.isLoading && <div>Carregando foto...</div>}
     </>
   );
 }
