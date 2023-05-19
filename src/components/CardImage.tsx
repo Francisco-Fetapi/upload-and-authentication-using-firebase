@@ -25,9 +25,13 @@ export interface Picture {
 
 export interface CardImageProps {
   picture: Picture;
+  preview?: boolean;
 }
 
-export default function CardImage({ picture }: CardImageProps) {
+export default function CardImage({
+  picture,
+  preview = false,
+}: CardImageProps) {
   const { classes } = useStyles();
   return (
     <Card
@@ -45,13 +49,16 @@ export default function CardImage({ picture }: CardImageProps) {
       <Text color="dimmed" size="xs" transform="uppercase" weight={700} mt="md">
         {formatDate(new Date(picture.date))}
       </Text>
-      <Text
-        className={classes.title}
-        mt={5}
-        color={!picture.title ? "red" : undefined}
-      >
-        {picture.title || "Imagem sem titulo!"}
-      </Text>
+      {picture.title && (
+        <Text className={classes.title} mt={5}>
+          {picture.title}
+        </Text>
+      )}
+      {!picture.title && !preview && (
+        <Text className={classes.title} mt={5}>
+          SEM LEGENGA
+        </Text>
+      )}
     </Card>
   );
 }
