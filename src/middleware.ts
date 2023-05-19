@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 
 type MiddlewareReturn = Promise<Response | undefined> | Response | undefined;
 
-const protectdRoutesForAuth = [""];
+const protectdRoutesForAuth: string[] = [];
 
 export function isProtected(str: string) {
   return (
