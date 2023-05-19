@@ -6,6 +6,7 @@ import PhotoPreview from "./PhotoPreview";
 import useUpload from "hooks/useUpload";
 import { showNotification } from "@mantine/notifications";
 import { CustomLoader } from "./CustomLoader";
+import convertToBase64 from "helpers/convertBase64";
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
@@ -43,15 +44,18 @@ export function DropzoneButton() {
     setFile(files[0]);
   }
 
-  function upload() {
+  async function upload() {
     if (file) {
+      const file64 = await convertToBase64(file);
+      console.log(file64);
       handleUpload.mutate(
         {
+          // file: file64 as string,
           file,
           title,
         },
         {
-          onSuccess(data, variables, context) {
+          onSuccess() {
             setFile(null);
             setTitle("");
             showNotification({

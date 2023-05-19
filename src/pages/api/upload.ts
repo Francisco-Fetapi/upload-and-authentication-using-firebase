@@ -13,6 +13,12 @@ interface ResponseError {
   error: string;
 }
 
+export const config = {
+  api: {
+    bodyParser: false,
+  },
+};
+
 async function upload(req: NextApiRequest, res: NextApiResponse) {
   const { body } = req;
   // const {
@@ -30,7 +36,7 @@ async function upload(req: NextApiRequest, res: NextApiResponse) {
   // }
 
   console.log(body);
-  res.status(201).send({ msg: "File uploaded." });
+  return res.status(201).send({ msg: "File uploaded." });
 }
 
 export default upload;

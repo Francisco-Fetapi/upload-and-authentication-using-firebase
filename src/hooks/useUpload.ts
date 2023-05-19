@@ -5,34 +5,30 @@ import { useMutation, useQueryClient } from "react-query";
 
 interface FileInfo {
   file: File;
+  // file: string;
   title: string;
 }
 
-interface UseDeleteHandleProps {
-  url: `/${string}`;
-  queryToRefetch: string;
-  documents: Document[];
-}
-
 export default function useUpload() {
-  const handleUpload = useMutation(({ file, title }: FileInfo) => {
+  const handleUpload = useMutation(async ({ file, title }: FileInfo) => {
+    // return apiRoutes.post<HandleUploadApiResponse>("/upload", {
+    //   file,
+    //   title,
+    // });
+
     const formData = new FormData();
     formData.append("file", file);
     formData.append("title", title);
 
-    return apiRoutes.post<HandleUploadApiResponse>("/upload", formData);
+    return apiRoutes.post<HandleUploadApiResponse>("/upload", {
+      body: formData,
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
   });
 
-  // handleDelete.mutate(documents_ || documents, {
-  //   onSuccess(res, variables, context) {
-  //     showNotification({
-  //       title: "Imagem carregada.",
-  //       message: "",
-  //       color: "green",
-  //     });
   //     queryClient.refetchQueries([queryToRefetch]);
-  //   },
-  // });
 
   return { handleUpload };
 }
