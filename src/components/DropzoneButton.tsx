@@ -1,31 +1,34 @@
 import { useRef } from "react";
 import { Text, Group, Button, createStyles } from "@mantine/core";
 import { Dropzone, MIME_TYPES } from "@mantine/dropzone";
-import { IconCloudUpload, IconX, IconDownload } from "@tabler/icons-react";
+import { IconCloudUpload, IconX, IconDownload } from "@tabler/icons";
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
-    position: "relative",
-    marginBottom: "30rem",
+    // position: "relative",
+    // marginBottom: "15rem",
+    maxWidth: "500px",
+    height: "100px",
+    margin: "0 auto",
   },
 
   dropzone: {
-    borderWidth: "1rem",
-    paddingBottom: "50rem",
+    // borderWidth: "0.5rem",
+    // paddingBottom: "25rem",
   },
 
   icon: {
-    color:
-      theme.colorScheme === "dark"
-        ? theme.colors.dark[3]
-        : theme.colors.gray[4],
+    // color:
+    //   theme.colorScheme === "dark"
+    //     ? theme.colors.dark[3]
+    //     : theme.colors.gray[4],
   },
 
   control: {
-    position: "absolute",
-    width: "250rem",
-    left: `calc(50% - 125rem)`,
-    bottom: "-20rem",
+    display: "flex",
+    justifyContent: "center",
+    position: "relative",
+    top: "-20px",
   },
 }));
 
@@ -47,17 +50,17 @@ export function DropzoneButton() {
           <Group position="center">
             <Dropzone.Accept>
               <IconDownload
-                size={"50rem"}
+                size={"10rem"}
                 color={theme.colors[theme.primaryColor][6]}
                 stroke={1.5}
               />
             </Dropzone.Accept>
             <Dropzone.Reject>
-              <IconX size={"50rem"} color={theme.colors.red[6]} stroke={1.5} />
+              <IconX size={"10rem"} color={theme.colors.red[6]} stroke={1.5} />
             </Dropzone.Reject>
             <Dropzone.Idle>
               <IconCloudUpload
-                size={"50rem"}
+                size={"10rem"}
                 color={
                   theme.colorScheme === "dark"
                     ? theme.colors.dark[0]
@@ -73,21 +76,18 @@ export function DropzoneButton() {
             <Dropzone.Reject>Imagens com menos de 5MB</Dropzone.Reject>
             <Dropzone.Idle>Carregar imagens</Dropzone.Idle>
           </Text>
-          <Text align="center" size="sm" mt="xs" color="dimmed">
+          <Text align="center" size="sm" mb="lg" mt="xs" color="dimmed">
             Arraste e solte as imagens aqui. Nós aceitamos apenas imagens com
             menos de 5MB.
           </Text>
         </div>
       </Dropzone>
 
-      <Button
-        className={classes.control}
-        size="md"
-        radius="xl"
-        onClick={() => openRef.current?.()}
-      >
-        Selecionar Ficheiros
-      </Button>
+      <div className={classes.control}>
+        <Button size="md" radius="xl" onClick={() => openRef.current?.()}>
+          Selecionar Ficheiros
+        </Button>
+      </div>
     </div>
   );
 }

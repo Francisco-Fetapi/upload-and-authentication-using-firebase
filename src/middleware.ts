@@ -6,7 +6,6 @@ type MiddlewareReturn = Promise<Response | undefined> | Response | undefined;
 const protectdRoutesForAuth = ["/upload"];
 
 export function isProtected(str: string) {
-  return false;
   return (
     str === "/" ||
     protectdRoutesForAuth.some((routeProtected) =>
