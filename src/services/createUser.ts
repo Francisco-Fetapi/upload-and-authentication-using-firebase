@@ -1,5 +1,4 @@
 import { firebaseDb } from "config/firebase.config";
-import { Settings } from "entities/Settings";
 import { User } from "entities/User";
 import { updateProfile } from "firebase/auth";
 import { addDoc, collection, DocumentData } from "firebase/firestore";
@@ -17,20 +16,12 @@ export async function createUser(user: User) {
       displayName: user.name,
     });
   }
-  const { cnpj, corporationName, phoneNumber, email, name } = user;
-  const settings: Settings = {
-    limit: 81000,
-    sendEmail: false,
-    sendSMS: false,
-  };
+  const { email, name } = user;
+
   const docRef = await addDoc(collection(firebaseDb, "users"), {
-    cnpj,
-    corporationName,
-    phoneNumber,
     userid: userRef?.uid,
     email,
     name,
-    settings,
   } as UserDoc);
 
   return { docId: docRef.id, userRef };
