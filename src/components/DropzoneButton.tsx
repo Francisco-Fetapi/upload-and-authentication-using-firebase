@@ -3,9 +3,9 @@ import { Text, Group, Button, createStyles } from "@mantine/core";
 import { Dropzone, FileWithPath, MIME_TYPES } from "@mantine/dropzone";
 import { IconCloudUpload, IconX, IconDownload } from "@tabler/icons";
 import PhotoPreview from "./PhotoPreview";
-import { apiRoutes } from "lib/axios";
 import useUpload from "hooks/useUpload";
 import { showNotification } from "@mantine/notifications";
+import { CustomLoader } from "./CustomLoader";
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
@@ -126,7 +126,7 @@ export function DropzoneButton() {
           </div>
         </div>
       )}
-      {file && (
+      {file && !handleUpload.isLoading && (
         <PhotoPreview
           file={file}
           title={title}
@@ -136,7 +136,14 @@ export function DropzoneButton() {
         />
       )}
 
-      {handleUpload.isLoading && <div>Carregando foto...</div>}
+      {handleUpload.isLoading && (
+        <div style={{ textAlign: "center" }}>
+          {CustomLoader}
+          <Text size="xs" color="dimmed" align="center">
+            Carregando foto...
+          </Text>
+        </div>
+      )}
     </>
   );
 }
