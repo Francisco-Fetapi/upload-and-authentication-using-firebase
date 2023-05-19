@@ -1,5 +1,6 @@
 import { Card, Text, AspectRatio, createStyles } from "@mantine/core";
 import { formatDate } from "helpers/formatDate";
+import { useHasMounted } from "hooks/useHasMonted";
 
 const useStyles = createStyles((theme) => ({
   card: {
@@ -33,6 +34,11 @@ export default function CardImage({
   preview = false,
 }: CardImageProps) {
   const { classes } = useStyles();
+  const hasMonted = useHasMounted();
+
+  if (!hasMonted) {
+    return <div />;
+  }
   return (
     <Card
       key={picture.title}
@@ -47,7 +53,6 @@ export default function CardImage({
         <img src={picture.image} alt="Imagem" />
       </AspectRatio>
       <Text color="dimmed" size="xs" transform="uppercase" weight={700} mt="md">
-        {/* TODO: solve nextjs hydratation error */}
         {formatDate(new Date(picture.date))}
       </Text>
       {picture.title && (
