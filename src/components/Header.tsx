@@ -63,7 +63,9 @@ export default function Header({ opened, setOpened }: HeaderProps) {
           />
         )}
 
-        <h4>SISTEMA DE UPLOAD DE IMAGENS</h4>
+        <MediaQuery smallerThan="sm" styles={{ display: "none" }}>
+          <h4>SISTEMA DE UPLOAD DE IMAGENS</h4>
+        </MediaQuery>
 
         <Group>
           <ActionIcon
