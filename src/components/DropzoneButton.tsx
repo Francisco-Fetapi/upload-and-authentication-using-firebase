@@ -5,6 +5,8 @@ import { IconCloudUpload, IconX, IconDownload } from "@tabler/icons";
 import PhotoPreview from "./PhotoPreview";
 import { CustomLoader } from "./CustomLoader";
 import useUploadFileFirebase from "hooks/useUploadFileFirebase";
+import useAuth from "hooks/useAuth";
+import useImageStorage from "hooks/useImageStorage";
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
@@ -33,16 +35,33 @@ export function DropzoneButton() {
   const [file, setFile] = useState<File | null>(null);
   const [title, setTitle] = useState("");
   const { uploadFirebase, uploading } = useUploadFileFirebase();
+  const { user } = useAuth();
+  const { handleSaveImage } = useImageStorage();
+
+  const isLoading = uploading || handleSaveImage.isError;
 
   function selectFiles(files: FileWithPath[]) {
-    console.log(files);
-
     setFile(files[0]);
   }
 
   async function upload() {
     if (file) {
-      await uploadFirebase(file);
+      let fullUrl = await uploadFirebase(file);
+
+      // save on database
+      handleSaveImage.mutate(
+        {
+          fullUrl,
+          title,
+          uid: user!.id,
+        },
+        {
+          onSuccess() {
+            setFile(null);
+            setTitle("");
+          },
+        }
+      );
     }
   }
 
@@ -107,7 +126,7 @@ export function DropzoneButton() {
           </div>
         </div>
       )}
-      {file && !uploading && (
+      {file && !isLoading && (
         <PhotoPreview
           file={file}
           title={title}
@@ -117,7 +136,7 @@ export function DropzoneButton() {
         />
       )}
 
-      {uploading && (
+      {isLoading && (
         <div style={{ textAlign: "center" }}>
           {CustomLoader}
           <Text size="xs" color="dimmed" align="center">

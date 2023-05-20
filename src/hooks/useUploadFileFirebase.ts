@@ -1,4 +1,4 @@
-import { ref as storageRef } from "firebase/storage";
+import { getDownloadURL, ref as storageRef } from "firebase/storage";
 import { useUploadFile } from "react-firebase-hooks/storage";
 import useFirebase from "./useFirebase";
 
@@ -13,7 +13,10 @@ export default function useUploadFileFirebase() {
       // contentType: "image/jpeg",
       contentType: type,
     });
-    console.log(result);
+
+    const downloadURL = await getDownloadURL(result!.ref);
+
+    return downloadURL;
   };
 
   return { uploadFirebase, uploading, snapshot, error };
