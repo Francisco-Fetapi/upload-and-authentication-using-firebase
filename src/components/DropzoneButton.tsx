@@ -3,15 +3,11 @@ import { Text, Group, Button, createStyles } from "@mantine/core";
 import { Dropzone, FileWithPath, MIME_TYPES } from "@mantine/dropzone";
 import { IconCloudUpload, IconX, IconDownload } from "@tabler/icons";
 import PhotoPreview from "./PhotoPreview";
-import useUpload from "hooks/useUpload";
-import { showNotification } from "@mantine/notifications";
 import { CustomLoader } from "./CustomLoader";
-import convertToBase64 from "helpers/convertBase64";
+import useUploadFileFirebase from "hooks/useUploadFileFirebase";
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
-    // position: "relative",
-    // marginBottom: "15rem",
     maxWidth: "500px",
     height: "100px",
     margin: "0 auto",
@@ -36,7 +32,7 @@ export function DropzoneButton() {
   const maxFileSize = 5; //5 MB
   const [file, setFile] = useState<File | null>(null);
   const [title, setTitle] = useState("");
-  const { handleUpload } = useUpload();
+  const { uploadFirebase, uploading } = useUploadFileFirebase();
 
   function selectFiles(files: FileWithPath[]) {
     console.log(files);
@@ -46,26 +42,7 @@ export function DropzoneButton() {
 
   async function upload() {
     if (file) {
-      const file64 = await convertToBase64(file);
-      console.log(file64);
-      handleUpload.mutate(
-        {
-          // file: file64 as string,
-          file,
-          title,
-        },
-        {
-          onSuccess() {
-            setFile(null);
-            setTitle("");
-            showNotification({
-              title: "Imagem carregada.",
-              message: "A sua imagem foi carregada com sucesso.",
-              color: "green",
-            });
-          },
-        }
-      );
+      await uploadFirebase(file);
     }
   }
 
@@ -130,7 +107,7 @@ export function DropzoneButton() {
           </div>
         </div>
       )}
-      {file && !handleUpload.isLoading && (
+      {file && !uploading && (
         <PhotoPreview
           file={file}
           title={title}
@@ -140,7 +117,7 @@ export function DropzoneButton() {
         />
       )}
 
-      {handleUpload.isLoading && (
+      {uploading && (
         <div style={{ textAlign: "center" }}>
           {CustomLoader}
           <Text size="xs" color="dimmed" align="center">
