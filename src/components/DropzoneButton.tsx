@@ -7,6 +7,7 @@ import { CustomLoader } from "./CustomLoader";
 import useUploadFileFirebase from "hooks/useUploadFileFirebase";
 import useAuth from "hooks/useAuth";
 import useImageStorage from "hooks/useImageStorage";
+import { useQueryClient } from "react-query";
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
@@ -37,6 +38,7 @@ export function DropzoneButton() {
   const { uploadFirebase, uploading } = useUploadFileFirebase();
   const { user } = useAuth();
   const { handleSaveImage } = useImageStorage();
+  const queryClient = useQueryClient();
 
   const isLoading = uploading || handleSaveImage.isError;
 
@@ -53,12 +55,12 @@ export function DropzoneButton() {
         {
           fullUrl,
           title,
-          uid: user!.id,
         },
         {
           onSuccess() {
             setFile(null);
             setTitle("");
+            queryClient.refetchQueries(["pictures"]);
           },
         }
       );

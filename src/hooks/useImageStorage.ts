@@ -3,19 +3,16 @@ import { apiRoutes } from "lib/axios";
 import { HandleSaveImageApiResponse } from "pages/api/save-image";
 import { useMutation } from "react-query";
 
-interface Request extends Omit<Image, "date"> {}
+interface Request extends Omit<Image, "date" | "uid"> {}
 
 export default function useImageStorage() {
-  const handleSaveImage = useMutation(
-    async ({ fullUrl, title, uid }: Request) => {
-      return apiRoutes.post<HandleSaveImageApiResponse>("/save-image", {
-        uid,
-        fullUrl,
-        title,
-        date: new Date().toString(),
-      });
-    }
-  );
+  const handleSaveImage = useMutation(async ({ fullUrl, title }: Request) => {
+    return apiRoutes.post<HandleSaveImageApiResponse>("/save-image", {
+      fullUrl,
+      title,
+      date: new Date().toString(),
+    });
+  });
 
   return { handleSaveImage };
 }

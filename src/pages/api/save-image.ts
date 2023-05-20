@@ -18,8 +18,9 @@ interface ResponseError {
 
 async function saveImage(req: NextApiRequest, res: NextApiResponse) {
   const { body } = req;
-  const { fullUrl, title, uid } = <Request>body;
+  const { fullUrl, title } = <Request>body;
 
+  const uid = req.headers.uid as string;
   try {
     const date = new Date().toString();
     await saveImageToFirebase({ fullUrl, title, uid, date });
