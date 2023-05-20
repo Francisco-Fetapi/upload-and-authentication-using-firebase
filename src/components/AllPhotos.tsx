@@ -1,6 +1,7 @@
 import { Text } from "@mantine/core";
 import { apiRoutes } from "lib/axios";
 import { GetImagesApiResponse } from "pages/api/get-images";
+import { useMemo } from "react";
 import { useQuery } from "react-query";
 import { Picture } from "./CardImage";
 import GalleryGrid from "./Gallery";
@@ -13,8 +14,15 @@ export default function AllPhotos() {
     },
     {
       refetchOnWindowFocus: false,
+      refetchOnMount: true,
     }
   );
+  const picturesDocuments = pictures.data?.data.images || [];
+  const imagesParsed: Picture[] = useMemo(() => {
+    return picturesDocuments.map((pic) => {
+      return { ...pic, image: pic.fullUrl };
+    });
+  }, [picturesDocuments]);
 
   if (pictures.isLoading) {
     return (
@@ -23,14 +31,6 @@ export default function AllPhotos() {
       </Text>
     );
   }
-
-  const picturesDocuments = pictures.data?.data.images || [];
-
-  console.log(picturesDocuments);
-
-  const imagesParsed: Picture[] = picturesDocuments.map((pic) => {
-    return { ...pic, image: pic.fullUrl };
-  });
 
   return (
     <div>

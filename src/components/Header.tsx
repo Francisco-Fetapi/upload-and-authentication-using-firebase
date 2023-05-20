@@ -12,7 +12,8 @@ import {
 import { IconSun, IconMoonStars, IconLogout } from "@tabler/icons";
 import useAuth from "hooks/useAuth";
 import useLogout from "hooks/useLogout";
-import { Dispatch, SetStateAction } from "react";
+import { useRouter } from "next/router";
+import { Dispatch, SetStateAction, useEffect } from "react";
 import { UserButton } from "./UserButton";
 
 interface HeaderProps {
@@ -44,6 +45,13 @@ export default function Header({ opened, setOpened }: HeaderProps) {
   const { colorScheme, toggleColorScheme } = useMantineColorScheme();
   const logout = useLogout();
   const { user } = useAuth();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!document.cookie.includes("uid")) {
+      router.push("/iniciar-sessao");
+    }
+  }, []);
 
   return (
     <HeaderMantine height={70} p="md">
