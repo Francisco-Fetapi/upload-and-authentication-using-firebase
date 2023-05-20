@@ -5,15 +5,23 @@ import { Picture } from "./CardImage";
 import GalleryGrid from "./Gallery";
 
 export default function AllPhotos() {
-  const pictures = useQuery("pictures", () => {
-    return apiRoutes.get<GetImagesApiResponse>("/get-images");
-  });
+  const pictures = useQuery(
+    "pictures",
+    () => {
+      return apiRoutes.get<GetImagesApiResponse>("/get-images");
+    },
+    {
+      refetchOnMount: true,
+    }
+  );
 
   if (pictures.isLoading) {
     return <p>Carregando fotos...</p>;
   }
 
   const picturesDocuments = pictures.data?.data.images || [];
+
+  console.log(picturesDocuments);
 
   const imagesParsed: Picture[] = picturesDocuments.map((pic) => {
     return { ...pic, image: pic.fullUrl };

@@ -1,6 +1,6 @@
 import { firebaseDb } from "config/firebase.config";
 import { Image } from "entities/Image";
-import { getDocs, collection, query, where } from "firebase/firestore";
+import { getDocs, collection, query, where, orderBy } from "firebase/firestore";
 
 export interface ImageDocument extends Image {
   id: string;

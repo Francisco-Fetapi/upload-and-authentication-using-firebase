@@ -51,6 +51,8 @@ export function DropzoneButton() {
       let fullUrl = await uploadFirebase(file);
 
       // save on database
+      setFile(null);
+      setTitle("");
       handleSaveImage.mutate(
         {
           fullUrl,
@@ -58,8 +60,6 @@ export function DropzoneButton() {
         },
         {
           onSuccess() {
-            setFile(null);
-            setTitle("");
             queryClient.refetchQueries(["pictures"]);
           },
         }
@@ -69,7 +69,7 @@ export function DropzoneButton() {
 
   return (
     <>
-      {!file && (
+      {!file && !isLoading && (
         <div className={classes.wrapper}>
           <Dropzone
             openRef={openRef}

@@ -45,7 +45,8 @@ export default function CardImage({
       p="md"
       radius="md"
       component="a"
-      href="#"
+      href={picture.image}
+      target="__blank"
       className={classes.card}
     >
       <AspectRatio ratio={1920 / 1080}>
